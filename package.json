@@ -1,7 +1,7 @@
 {
   "name": "chattyapp",
   "version": "1.0.0",
-  "description": "twitter clone",
+  "description": "slack clone",
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js"
