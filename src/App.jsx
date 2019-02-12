@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import Message from './Message.jsx';
 import MessageList from './MessageList.jsx';
+import {generateRandomId} from './utils.js'
+
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +24,25 @@ class App extends Component {
       ]
     };
   }
+
+  componentDidMount() {
+    console.log("<App /> Mounted");
+    setTimeout(() => {
+      console.log("Here comes da message!");
+
+      const newMessage = {id: 3, username: "Michelle", content:"Hi there!"};
+      const messages = this.state.messages.concat(newMessage);
+      this.setState({messages})
+    }, 1000);
+  }
+
+  sendMessage = (username, content) => {
+    const id = generateRandomId();
+    const newMessage = {id, username, content};
+    const messages = this.state.messages.concat(newMessage);
+    this.setState({messages});
+  }
+
   render() {
     return (
       <div>
@@ -31,7 +52,7 @@ class App extends Component {
         {/**  COMPONENTS START HERE  */}
 
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser}/>
+        <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage}/>
   </div>
     );
   }
