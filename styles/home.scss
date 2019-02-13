@@ -42,7 +42,8 @@ body {
   flex: 2;
 }
 
-.message {
+.message,
+.notification {
   display: flex;
   padding: 5px;
 }
@@ -89,4 +90,9 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+.notification-content {
+  flex: 2;
+  font-style: italic;
 }
