@@ -10,6 +10,7 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: 'DemoDan',
+      websocket: null,
       messages: [
         {
           id: 1,
@@ -27,23 +28,27 @@ class App extends Component {
 
   componentDidMount() {
     console.log("<App /> Mounted");
-    setTimeout(() => {
-      console.log("Here comes da message!");
+    const chattySocket = new WebSocket('ws://localhost:3001');
+    this.setState({ websocket: chattySocket });
+    console.log(`Connected to Websocket server: ${chattySocket.url}`);
+  }
 
-      const newMessage = {id: 3, username: "Michelle", content:"Hi there!"};
-      const messages = this.state.messages.concat(newMessage);
-      this.setState({messages})
-    }, 1000);
+  componentDidUpdate() {
+    this.state.websocket.onmessage = (e) => {
+      console.log('RECEIVED FROM SOCKET: ' + e.data);
+    }
   }
 
   sendMessage = (username, content) => {
     const id = generateRandomId();
     const newMessage = {id, username, content};
+    this.state.websocket.send(JSON.stringify(newMessage));
     const messages = this.state.messages.concat(newMessage);
     this.setState({messages});
   }
 
   render() {
+    
     return (
       <div>
         <nav className="navbar">
