@@ -7,22 +7,31 @@ class ChatBar extends Component{
     const username = document.querySelector('.chatbar-username');
       
     message.addEventListener("keyup", (e) => {
-      event.preventDefault();
+      e.preventDefault();
       
       if (e.keyCode === 13) {
-        this.props.sendMessage(this.props.currentUser, message.value);
+        this.props.sendMessage('postMessage', this.props.currentUser, message.value);
         message.value = '';
       }
     });
 
-    username.addEventListener("keyup", (e) => {
-      event.preventDefault();
+    // username.addEventListener("keyup", (e) => {
+    //   e.preventDefault();
       
-      if (e.keyCode === 13) {
+    //   if (e.keyCode === 13 || e.keyCode === 9) {
+    //     if (username.value === '') username.value = 'Anonymous Andy';
+    //     this.props.setUser('postNotification', username.value);
+    //   }
+    // });
+
+    username.addEventListener("keydown", (e) => {
+      
+      if (e.keyCode === 13 || e.keyCode === 9) {
         if (username.value === '') username.value = 'Anonymous Andy';
-        this.props.setUser(username.value);
+        if (username.value !== this.props.currentUser) { this.props.setUser('postNotification', username.value); }
       }
     });
+    
   }  
 
   handleFocus = (e) => e.target.select();

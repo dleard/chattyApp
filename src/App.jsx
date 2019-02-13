@@ -11,18 +11,7 @@ class App extends Component {
     this.state = {
       currentUser: 'AnonymousAndy',
       websocket: null,
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
+      messages: []
     };
   }
 
@@ -42,15 +31,18 @@ class App extends Component {
     }
   }
 
-  sendMessage = (username, content) => {
+  sendMessage = (type, username, content) => {
     const id = generateRandomId();
-    const newMessage = {id, username, content};
+    const newMessage = {type, id, username, content};
     this.state.websocket.send(JSON.stringify(newMessage));
   }
 
-  setUser = (username) => {
-    this.setState({ currentUser: username});
-    console.log(this.state.currentUser);
+  setUser = (type, username) => {
+    console.log(`${this.state.currentUser} has changed their name to ${username}`);
+    const {currentUser} = this.state;
+    const notification = {type, currentUser, username};
+    this.state.websocket.send(JSON.stringify(notification));
+    this.setState({ currentUser: username });
   }
 
   render() {
