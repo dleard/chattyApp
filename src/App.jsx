@@ -36,6 +36,9 @@ class App extends Component {
   componentDidUpdate() {
     this.state.websocket.onmessage = (e) => {
       console.log('RECEIVED FROM SOCKET: ' + e.data);
+      const newMessage = JSON.parse(e.data)
+      const messages = this.state.messages.concat(newMessage);
+      this.setState({messages});
     }
   }
 
@@ -43,8 +46,6 @@ class App extends Component {
     const id = generateRandomId();
     const newMessage = {id, username, content};
     this.state.websocket.send(JSON.stringify(newMessage));
-    const messages = this.state.messages.concat(newMessage);
-    this.setState({messages});
   }
 
   render() {
