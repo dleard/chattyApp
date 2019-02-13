@@ -11,15 +11,31 @@ class App extends Component {
     this.state = {
       currentUser: 'AnonymousAndy',
       websocket: null,
-      messages: []
+      messages: [],
+      connectedUsers: 0
     };
   }
 
+  connect = () => {
+    return new Promise((resolve, reject) => {
+      const chattySocket = new WebSocket('ws://localhost:3001');
+        chattySocket.onopen = () => {
+            resolve(chattySocket);
+        };
+        chattySocket.onerror = (err) => {
+            reject(err);
+        };
+    });
+  }
+  
+
   componentDidMount() {
     console.log("<App /> Mounted");
-    const chattySocket = new WebSocket('ws://localhost:3001');
-    this.setState({ websocket: chattySocket });
-    console.log(`Connected to Websocket server: ${chattySocket.url}`);
+    this.connect().then((chattySocket) => {
+      this.setState({ websocket: chattySocket });
+      console.log(`Connected to Websocket server: ${chattySocket.url}`);
+      this.setConnectedUsers();
+    });
   }
 
   componentDidUpdate() {
@@ -45,12 +61,18 @@ class App extends Component {
     this.setState({ currentUser: username });
   }
 
+  setConnectedUsers = () => {
+    this.state.websocket.onmessage = (e) => {
+      this.setState({connectedUsers: e.data});
+    }
+  }
+
   render() {
-    
     return (
       <div>
-        <nav className="navbar">
+        <nav className="navbar" style={{overflow: 'auto'}}>
           <a href="/" className="navbar-brand">Chatty</a>
+          <h2 style={{float: 'right'}}>{this.state.connectedUsers}</h2> <h2 style={{float: 'right' }}>Online: &emsp;</h2>
         </nav>
         {/**  COMPONENTS START HERE  */}
 
