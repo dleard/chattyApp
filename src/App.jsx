@@ -12,7 +12,8 @@ class App extends Component {
       currentUser: 'AnonymousAndy',
       websocket: null,
       messages: [],
-      connectedUsers: 0
+      connectedUsers: 0,
+      userColor: '#000000'
     };
   }
 
@@ -63,7 +64,9 @@ class App extends Component {
 
   setConnectedUsers = () => {
     this.state.websocket.onmessage = (e) => {
-      this.setState({connectedUsers: e.data});
+      const data = JSON.parse(e.data);
+      console.log(data);
+      this.setState({connectedUsers: data.numOnline, userColor: data.color});
     }
   }
 
@@ -76,7 +79,7 @@ class App extends Component {
         </nav>
         {/**  COMPONENTS START HERE  */}
 
-        <MessageList messages={this.state.messages} />
+        <MessageList messages={this.state.messages} userColor = {this.state.userColor} />
         <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} setUser={this.setUser} />
   </div>
     );
