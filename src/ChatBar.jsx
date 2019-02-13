@@ -3,25 +3,34 @@ import React, {Component} from 'react';
 class ChatBar extends Component{
 
   componentDidMount() {
-    const input = document.querySelector('.chatbar-message');
+    const message = document.querySelector('.chatbar-message');
     const username = document.querySelector('.chatbar-username');
       
-    input.addEventListener("keyup", (e) => {
+    message.addEventListener("keyup", (e) => {
+      event.preventDefault();
+      
+      if (e.keyCode === 13) {
+        this.props.sendMessage(this.props.currentUser, message.value);
+        message.value = '';
+      }
+    });
+
+    username.addEventListener("keyup", (e) => {
       event.preventDefault();
       
       if (e.keyCode === 13) {
         if (username.value === '') username.value = 'Anonymous Andy';
-        this.props.sendMessage(username.value, input.value);
-        username.value  = '';
-        input.value = '';
+        this.props.setUser(username.value);
       }
     });
   }  
 
+  handleFocus = (e) => e.target.select();
+
   render() {
     return (
       <footer className="chatbar">
-        <input name="username" className="chatbar-username" placeholder="Your Name (Optional)" />
+        <input name="username" className="chatbar-username" placeholder={this.props.currentUser } onFocus={this.handleFocus} />
         <input name="message" className="chatbar-message" placeholder="Type a message and hit ENTER" />
       </footer>
     )

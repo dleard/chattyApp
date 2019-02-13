@@ -9,7 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: 'DemoDan',
+      currentUser: 'AnonymousAndy',
       websocket: null,
       messages: [
         {
@@ -48,6 +48,11 @@ class App extends Component {
     this.state.websocket.send(JSON.stringify(newMessage));
   }
 
+  setUser = (username) => {
+    this.setState({ currentUser: username});
+    console.log(this.state.currentUser);
+  }
+
   render() {
     
     return (
@@ -58,7 +63,7 @@ class App extends Component {
         {/**  COMPONENTS START HERE  */}
 
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage}/>
+        <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} setUser={this.setUser} />
   </div>
     );
   }
