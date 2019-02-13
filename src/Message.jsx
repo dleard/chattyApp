@@ -11,13 +11,13 @@ class Message extends Component {
           <span className="message-content">{message.content}</span>
         </div>
       )
-    } else if (message.currentUser === 'AnonymousAndy') {
+    } else if (message.type === 'incomingNotification' && message.currentUser === 'AnonymousAndy') {
       return (
         <div className="notification">
           <span className="notification-content"><strong>{message.username}</strong> has joined the chat!</span>
         </div> 
       )  
-    } else {
+    } else if (message.type === 'incomingNotification' && message.currentUser !== 'AnonymousAndy') {
       return (
         <div className="notification">
           <span className="notification-content"><strong>{message.currentUser}</strong> has changed their name to <strong>{message.username}</strong></span>
