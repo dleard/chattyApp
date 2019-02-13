@@ -30,7 +30,6 @@ class Message extends Component {
     return(
       <div>
         {this.renderMessage()}
-        
       </div>
     )
   }

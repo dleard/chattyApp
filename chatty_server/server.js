@@ -9,6 +9,7 @@ const server = express()
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
 
 const wss = new SocketServer({ server });
+const users = {};
 
 const assignColor = () => {
   const colors = ['#660066', '#003366', '#9c0a0a', '#22ff57'];
@@ -17,10 +18,12 @@ const assignColor = () => {
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  users[ws] = ws;
+  users[ws].color = assignColor();
+
   const numOnline = wss.clients.size;
-  const color = assignColor();
   wss.clients.forEach((client) => {
-    client.send(JSON.stringify({numOnline, color}));
+    client.send(JSON.stringify({numOnline}));
   });
   
 
@@ -28,6 +31,7 @@ wss.on('connection', (ws) => {
     console.log(message);  
     const data = JSON.parse(message);
     data.id = uuid();
+    data.color = users[ws].color;
     data.type = data.type === 'postMessage' ? 'incomingMessage' : 'incomingNotification';
     wss.clients.forEach((client) => {
         client.send(JSON.stringify(data));

@@ -44,7 +44,7 @@ class App extends Component {
       console.log('RECEIVED FROM SOCKET: ' + e.data);
       const newMessage = JSON.parse(e.data)
       const messages = this.state.messages.concat(newMessage);
-      this.setState({messages});
+      this.setState({messages, userColor: newMessage.color});
     }
   }
 
@@ -66,7 +66,7 @@ class App extends Component {
     this.state.websocket.onmessage = (e) => {
       const data = JSON.parse(e.data);
       console.log(data);
-      this.setState({connectedUsers: data.numOnline, userColor: data.color});
+      this.setState({connectedUsers: data.numOnline});
     }
   }
 
