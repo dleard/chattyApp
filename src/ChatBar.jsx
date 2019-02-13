@@ -15,15 +15,6 @@ class ChatBar extends Component{
       }
     });
 
-    // username.addEventListener("keyup", (e) => {
-    //   e.preventDefault();
-      
-    //   if (e.keyCode === 13 || e.keyCode === 9) {
-    //     if (username.value === '') username.value = 'Anonymous Andy';
-    //     this.props.setUser('postNotification', username.value);
-    //   }
-    // });
-
     username.addEventListener("keydown", (e) => {
       
       if (e.keyCode === 13 || e.keyCode === 9) {
@@ -31,7 +22,6 @@ class ChatBar extends Component{
         if (username.value !== this.props.currentUser) { this.props.setUser('postNotification', username.value); }
       }
     });
-    
   }  
 
   handleFocus = (e) => e.target.select();
