@@ -47,5 +47,11 @@ wss.on('connection', (ws) => {
   //   ws.send(JSON.stringify(receivedMessage));
   // });
 
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    const numOnline = wss.clients.size;
+    wss.clients.forEach((client) => {
+      client.send(JSON.stringify({numOnline}));
+    });
+    console.log('Client disconnected');
+  });  
 })

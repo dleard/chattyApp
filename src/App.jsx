@@ -33,7 +33,7 @@ class App extends Component {
     this.connect().then((chattySocket) => {
       this.setState({ websocket: chattySocket });
       console.log(`Connected to Websocket server: ${chattySocket.url}`);
-      this.setConnectedUsers();
+      this.setUserId();
     });
   }
 
@@ -41,8 +41,12 @@ class App extends Component {
     this.state.websocket.onmessage = (e) => {
       console.log('RECEIVED FROM SOCKET: ' + e.data);
       const newMessage = JSON.parse(e.data)
-      const messages = this.state.messages.concat(newMessage);
-      this.setState({ messages });
+      if (newMessage.numOnline) {
+        this.setState({connectedUsers: newMessage.numOnline});
+      } else {
+        const messages = this.state.messages.concat(newMessage);
+        this.setState({ messages });
+      }
     }
   }
 
@@ -60,13 +64,11 @@ class App extends Component {
     this.setState({ currentUser: username });
   }
 
-  setConnectedUsers = () => {
+  setUserId = () => {
     this.state.websocket.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      if(data.id && data.numOnline) {
-        this.setState({connectedUsers: data.numOnline, myId: data.id});
-      } else if (data.numOnline) {
-        this.setState({connectedUsers: data.numOnline});
+      if(data.id) {
+        this.setState({myId: data.id});
       }  
     }
   }
@@ -78,9 +80,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
           <h2 style={{float: 'right' }}>Online: &emsp; {this.state.connectedUsers}</h2>
         </nav>
-        {/**  COMPONENTS START HERE  */}
-
-        <MessageList messages={this.state.messages} userColor = {this.state.userColor} />
+        <MessageList messages={this.state.messages} />
         <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} setUser={this.setUser} />
   </div>
     );
