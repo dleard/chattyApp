@@ -2,11 +2,29 @@ import React, {Component} from 'react';
 
 class Message extends Component {
 
+  handleContent = (message) => {
+    const msg = message.content.slice(1).toLowerCase();
+    if (message.content[0] === '/') {
+      let cmd;
+      switch(msg) {
+        case 'wave':
+          cmd = String.fromCodePoint(0x1f44b);
+          break;
+        case 'rockout':
+          cmd = String.fromCodePoint(0x1f918);
+          break;   
+      }
+      return <span className="message-content"><h1>{cmd}</h1></span>
+    }
+    return <span className="message-content">{message.content}</span>
+  }
+
   handleMessage = (message) => {
     return (
       <div style = {{color: `${message.color}`}} className="message">
         <span className="message-username">{message.username}</span>
-        <span className="message-content">{message.content}</span>
+        {this.handleContent(message)}
+        {/* <span className="message-content">{message.content}</span> */}
       </div>
     )
   }
@@ -48,7 +66,6 @@ class Message extends Component {
 
   renderMessage = () => {
     const {message} = this.props;
-    console.log(message);
     if (message.type === 'incomingMessage') {
       return this.handleMessage(message);
     } else { 
