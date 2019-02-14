@@ -24,6 +24,8 @@ class Message extends Component {
         case 'thumbs':
           cmd = String.fromCodePoint(0x1f44d);
           break;
+        default:
+          return <span className="message-content">Invalid '/' command</span>
       }
       return <span className="message-content"><h1 style={{fontSize: '50px'}}>{cmd}</h1></span>
     }
