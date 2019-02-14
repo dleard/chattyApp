@@ -1,0 +1,21 @@
+{
+  "name": "chatty_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "giphy-js-sdk-core": "^1.0.6"
+  },
+  "devDependencies": {
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "uuid": "^3.3.2",
+    "ws": "^6.1.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
