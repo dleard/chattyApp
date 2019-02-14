@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
-import Message from './Message.jsx';
 import MessageList from './MessageList.jsx';
-import {generateRandomId} from './utils.js'
-
 
 class App extends Component {
   constructor(props) {
@@ -44,9 +41,8 @@ class App extends Component {
     this.state.websocket.onmessage = (e) => {
       console.log('RECEIVED FROM SOCKET: ' + e.data);
       const newMessage = JSON.parse(e.data)
-      console.log(newMessage);
       const messages = this.state.messages.concat(newMessage);
-      this.setState({messages});
+      this.setState({ messages });
     }
   }
 
@@ -67,9 +63,9 @@ class App extends Component {
   setConnectedUsers = () => {
     this.state.websocket.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      if(data.id) {
+      if(data.id && data.numOnline) {
         this.setState({connectedUsers: data.numOnline, myId: data.id});
-      } else {
+      } else if (data.numOnline) {
         this.setState({connectedUsers: data.numOnline});
       }  
     }
@@ -80,7 +76,7 @@ class App extends Component {
       <div>
         <nav className="navbar" style={{overflow: 'auto'}}>
           <a href="/" className="navbar-brand">Chatty</a>
-          <h2 style={{float: 'right'}}>{this.state.connectedUsers}</h2> <h2 style={{float: 'right' }}>Online: &emsp;</h2>
+          <h2 style={{float: 'right' }}>Online: &emsp; {this.state.connectedUsers}</h2>
         </nav>
         {/**  COMPONENTS START HERE  */}
 
