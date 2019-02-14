@@ -15,6 +15,7 @@ class App extends Component {
     };
   }
 
+  // Connection to ws server promise
   connect = () => {
     return new Promise((resolve, reject) => {
       const chattySocket = new WebSocket('ws://localhost:3001');
@@ -27,7 +28,7 @@ class App extends Component {
     });
   }
   
-
+  // On mount, set websocket and id received from ws server to state
   componentDidMount() {
     console.log("<App /> Mounted");
     this.connect().then((chattySocket) => {
@@ -41,6 +42,7 @@ class App extends Component {
     this.state.websocket.onmessage = (e) => {
       console.log('RECEIVED FROM SOCKET: ' + e.data);
       const newMessage = JSON.parse(e.data)
+      // set number of users connected to the ws server in state if response includes numOnline key
       if (newMessage.numOnline) {
         this.setState({connectedUsers: newMessage.numOnline});
       } else {
@@ -50,12 +52,15 @@ class App extends Component {
     }
   }
 
+  // Send a message to the ws server
   sendMessage = (type, username, content) => {
+    // This is the ID received from the ws server on connection
     const {myId} = this.state;
     const newMessage = {type, username, content, myId};
     this.state.websocket.send(JSON.stringify(newMessage));
   }
 
+  // Set a user's username on change in the ChatBar
   setUser = (type, username) => {
     console.log(`${this.state.currentUser} has changed their name to ${username}`);
     const {currentUser} = this.state;
@@ -64,6 +69,7 @@ class App extends Component {
     this.setState({ currentUser: username });
   }
 
+  // Set the user's unique ID from ws server in state
   setUserId = () => {
     this.state.websocket.onmessage = (e) => {
       const data = JSON.parse(e.data);
