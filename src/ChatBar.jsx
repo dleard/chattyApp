@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 
+// Chatbar at bottom of page component
 class ChatBar extends Component{
 
   componentDidMount() {
     const message = document.querySelector('.chatbar-message');
     const username = document.querySelector('.chatbar-username');
       
+    // add a listener on the message content input 'enter' that submits the message
     message.addEventListener("keyup", (e) => {
       e.preventDefault();
       if (e.keyCode === 13) {
@@ -14,6 +16,7 @@ class ChatBar extends Component{
       }
     });
 
+    // adds a listener on the user input for 'tab' or 'enter' that changes the username
     username.addEventListener("keydown", (e) => {
       if (e.keyCode === 13 || e.keyCode === 9) {
         if (username.value === '') username.value = 'Anonymous Andy';
@@ -22,6 +25,7 @@ class ChatBar extends Component{
     });
   }  
 
+  // select all text in the user input on focus
   handleFocus = (e) => e.target.select();
 
   render() {

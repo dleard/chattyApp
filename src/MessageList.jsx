@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
+// Main message box, renders all messages
 class MessageList extends Component {
 
   render() {
-    const messages = this.props.messages;
-    
+    const messages = this.props.messages;    
     const messageList = messages.map((message) => {
       return <Message key={message.id} message={message} />
     })

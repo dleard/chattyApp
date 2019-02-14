@@ -1,17 +1,22 @@
 import React, {Component} from 'react';
 
+// Individual messages
 class Message extends Component {
 
+  // handle a '/giphy' command
   handleGiphy = (message) => {
     const returnGif = message.gifs;
     return <img className='embeddedImage' src={returnGif} />    
   }
 
+  // handle the different types of content that can be rendered
   handleContent = (message) => {
+    // if ws has passed a giphy gif
     if (message.gifs) {
       return this.handleGiphy(message);
     }
     const msg = message.content.slice(1).toLowerCase();
+    // "/" commands other than /giphy
     if (message.content[0] === '/') {
       let cmd;
       switch(msg) {
@@ -29,9 +34,11 @@ class Message extends Component {
       }
       return <span className="message-content"><h1 style={{fontSize: '50px'}}>{cmd}</h1></span>
     }
+    // If no special commands issued, just render the contents of the message
     return <span className="message-content">{message.content}</span>
   }
 
+  // handles the entirety of the message, including username
   handleMessage = (message) => {
     return (
       <div style = {{color: `${message.color}`}} className="message">
@@ -41,7 +48,9 @@ class Message extends Component {
     )
   }
 
+  // handles the message if the type is incomingNotification
   handleNotification = (message) => {
+    // Display 'user has joined the chat' if it is their first time changing their name
     if (message.type === 'incomingNotification' && message.currentUser === 'AnonymousAndy') {
       return (
         <div className="notification">
@@ -57,6 +66,7 @@ class Message extends Component {
     }
   }
   
+  // If a user's message contains an image URL, render that image below their message
   renderImages = () => {
     const imageRegex = /[^\ ]*\.(?:jpg|gif|png)/
     const {message} = this.props
@@ -76,6 +86,7 @@ class Message extends Component {
     }
   } 
 
+  // Message renderer
   renderMessage = () => {
     const {message} = this.props;
     if (message.type === 'incomingMessage') {
