@@ -18,9 +18,10 @@ const assignColor = () => {
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  users[ws] = ws;
-  users[ws].color = assignColor();
+  const userId = uuid();
+  users[userId] = assignColor();
 
+  ws.send(JSON.stringify({id: userId}));
   const numOnline = wss.clients.size;
   wss.clients.forEach((client) => {
     client.send(JSON.stringify({numOnline}));
@@ -28,10 +29,12 @@ wss.on('connection', (ws) => {
   
 
   ws.on('message', (message) => {
-    console.log(message);  
     const data = JSON.parse(message);
     data.id = uuid();
-    data.color = users[ws].color;
+    if (users[data.myId]) {
+      data.color = users[data.myId];
+    }
+    
     data.type = data.type === 'postMessage' ? 'incomingMessage' : 'incomingNotification';
     wss.clients.forEach((client) => {
         client.send(JSON.stringify(data));

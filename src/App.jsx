@@ -13,7 +13,8 @@ class App extends Component {
       websocket: null,
       messages: [],
       connectedUsers: 0,
-      userColor: '#000000'
+      myId: null,
+      userColor: 'black'
     };
   }
 
@@ -43,14 +44,15 @@ class App extends Component {
     this.state.websocket.onmessage = (e) => {
       console.log('RECEIVED FROM SOCKET: ' + e.data);
       const newMessage = JSON.parse(e.data)
+      console.log(newMessage);
       const messages = this.state.messages.concat(newMessage);
-      this.setState({messages, userColor: newMessage.color});
+      this.setState({messages});
     }
   }
 
   sendMessage = (type, username, content) => {
-    const id = generateRandomId();
-    const newMessage = {type, id, username, content};
+    const {myId} = this.state;
+    const newMessage = {type, username, content, myId};
     this.state.websocket.send(JSON.stringify(newMessage));
   }
 
@@ -65,8 +67,11 @@ class App extends Component {
   setConnectedUsers = () => {
     this.state.websocket.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      console.log(data);
-      this.setState({connectedUsers: data.numOnline});
+      if(data.id) {
+        this.setState({connectedUsers: data.numOnline, myId: data.id});
+      } else {
+        this.setState({connectedUsers: data.numOnline});
+      }  
     }
   }
 

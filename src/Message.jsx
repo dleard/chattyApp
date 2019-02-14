@@ -4,10 +4,11 @@ class Message extends Component {
   
   renderMessage = () => {
     const {message} = this.props
+    console.log('COLOR: ' + message);
     if (message.type === 'incomingMessage') {
       return (
-        <div className="message">
-          <span style={{color: `${this.props.userColor}`}}className="message-username">{message.username}</span>
+        <div style = {{color: `${message.color}`}} className="message">
+          <span className="message-username">{message.username}</span>
           <span className="message-content">{message.content}</span>
         </div>
       )
