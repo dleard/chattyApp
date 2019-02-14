@@ -28,7 +28,7 @@ class ChatBar extends Component{
     return (
       <footer className="chatbar">
         <input name="username" className="chatbar-username" placeholder={this.props.currentUser } onFocus={this.handleFocus} />
-        <input name="message" className="chatbar-message" placeholder="Type a message and hit ENTER" />
+        <input name="message" className="chatbar-message" placeholder="Type a message and hit ENTER. ' / ' commands: /giphy [search] /wave /thumbs /rockout" />
       </footer>
     )
   }
