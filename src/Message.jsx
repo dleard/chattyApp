@@ -13,8 +13,11 @@ class Message extends Component {
         case 'rockout':
           cmd = String.fromCodePoint(0x1f918);
           break;   
+        case 'thumbs':
+          cmd = String.fromCodePoint(0x1f44d);
+          break;
       }
-      return <span className="message-content"><h1>{cmd}</h1></span>
+      return <span className="message-content"><h1 style={{fontSize: '50px'}}>{cmd}</h1></span>
     }
     return <span className="message-content">{message.content}</span>
   }
