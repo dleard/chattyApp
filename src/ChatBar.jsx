@@ -8,7 +8,6 @@ class ChatBar extends Component{
       
     message.addEventListener("keyup", (e) => {
       e.preventDefault();
-      
       if (e.keyCode === 13) {
         this.props.sendMessage('postMessage', this.props.currentUser, message.value);
         message.value = '';
@@ -16,7 +15,6 @@ class ChatBar extends Component{
     });
 
     username.addEventListener("keydown", (e) => {
-      
       if (e.keyCode === 13 || e.keyCode === 9) {
         if (username.value === '') username.value = 'Anonymous Andy';
         if (username.value !== this.props.currentUser) { this.props.setUser('postNotification', username.value); }
