@@ -2,7 +2,15 @@ import React, {Component} from 'react';
 
 class Message extends Component {
 
+  handleGiphy = (message) => {
+    const returnGif = message.gifs;
+    return <img className='embeddedImage' src={returnGif} />    
+  }
+
   handleContent = (message) => {
+    if (message.gifs) {
+      return this.handleGiphy(message);
+    }
     const msg = message.content.slice(1).toLowerCase();
     if (message.content[0] === '/') {
       let cmd;
@@ -27,7 +35,6 @@ class Message extends Component {
       <div style = {{color: `${message.color}`}} className="message">
         <span className="message-username">{message.username}</span>
         {this.handleContent(message)}
-        {/* <span className="message-content">{message.content}</span> */}
       </div>
     )
   }
