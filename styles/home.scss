@@ -42,6 +42,12 @@ body {
   flex: 2;
 }
 
+.embeddedImage {
+  max-width: 60%;
+  margin-right:50%;
+  padding: 5px 20px;
+}
+
 .message,
 .notification {
   display: flex;

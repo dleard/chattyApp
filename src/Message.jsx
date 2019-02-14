@@ -1,10 +1,29 @@
 import React, {Component} from 'react';
 
 class Message extends Component {
-  
-  renderMessage = () => {
+
+  renderImages = () => {
+    const imageRegex = /[^\ ]*\.(?:jpg|gif|png)/
     const {message} = this.props
-    console.log('COLOR: ' + message);
+    if (message.content) {
+      const foundImages = message.content.match(imageRegex);
+      if (foundImages !== null) {
+        const Images = foundImages.map((image) => {
+          return ( 
+            <div style = {{color: `${message.color}`}} className="message">
+              <span className="message-username">{message.username}</span>
+              <img className='embeddedImage' src='https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/JaketheDog.png/220px-JaketheDog.png' />
+            </div>
+          )
+        });
+        return Images;
+      }
+    }
+    
+  } 
+
+  renderMessage = () => {
+    const {message} = this.props;
     if (message.type === 'incomingMessage') {
       return (
         <div style = {{color: `${message.color}`}} className="message">
@@ -31,6 +50,7 @@ class Message extends Component {
     return(
       <div>
         {this.renderMessage()}
+        {this.renderImages()}
       </div>
     )
   }
