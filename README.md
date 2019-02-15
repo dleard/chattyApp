@@ -4,7 +4,7 @@ ChattyApp is a simple chat app that uses websockets to allow multiple connection
 to the chat client.
 
 ## Screenshots
-!["Screenshot of ChattyApp: "](https://github.com/dleard/wiki-map/blob/master/mapwithpoints.png)
+!["Screenshot of ChattyApp: "](https://github.com/dleard/chattyApp/blob/master/assets/chatty.png)
 
 ## Dependencies
 
@@ -42,7 +42,7 @@ to the chat client.
 - Write a message and hit enter
 - Change username box by hitting enter or tab
 
-### Extras
+## Extras
 
 - `/giphy [searchParam]`  a random gif based on the searchParam
 - `/wave`  wave emoji
