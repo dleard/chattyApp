@@ -33,7 +33,7 @@ to the chat client.
 ## Getting Started
 
 - Install all dependencies from root folder (using the `npm install` command).
-- Install all dependencise from chatty_server folder
+- Install all dependencies from chatty_server folder (using the `npm install` command).
 - Run server from chatty_server folder with `node server`
 - Run app from root folder with `npm start`
 
