@@ -48,3 +48,4 @@ to the chat client.
 - `/wave`  wave emoji
 - `/thumbs`  thumbs up emoji
 - `/rockout`  devilhorns emoji
+- Inputting an image url in the message bar will show the image below the message
